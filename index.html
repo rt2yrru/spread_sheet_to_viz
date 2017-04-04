@@ -1,0 +1,54 @@
+<html>
+<body>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+
+<script src="http://static.fusioncharts.com/code/latest/fusioncharts.js"></script>
+
+<script>
+var spreadsheetId = "1K9qZPfxPScyGyU8v8Z-mUZqzGuIw_xbxKTiobjlL0vE/od6",
+  url = "https://spreadsheets.google.com/feeds/list/" +
+  spreadsheetId +
+  "/od6/public/basic?alt=json";
+
+$.get({
+  url: url,
+  success: function(response) {
+    var data = response.feed.entry,
+      len = data.length,
+      i = 0,
+      parsedData = [];
+
+    for (i = 0; i < len; i++) {
+      parsedData.push({
+        label: data[i].title.$t,
+        value: data[i].content.$t.replace('income: ', '')
+      });
+    }
+
+    new FusionCharts({
+      type: 'bar2d',
+      renderAt: 'chart-container',
+      width: '100%',
+      height: '300',
+      dataFormat: 'json',
+      dataSource: {
+        "chart": {
+          "caption": "Highest Paid Actors",
+          "yAxisName": "Annual Income (in milion USD)",
+          "numberPrefix": "$"
+        },
+        "data": parsedData
+      }
+    }).render();
+  }
+});
+</script>
+
+
+<div id="chart-container">
+  <p>The chart will render here!</p>
+</div>
+
+
+</body>
+</html>
