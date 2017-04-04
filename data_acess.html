@@ -32,7 +32,17 @@ function load()
           });
 }
 load();
-document.write(d_json.feed.entry);
+   var _data_ =d_json.feed.entry,
+      len = _data_.length,
+      i = 0,
+      parsedData = [];
+ for (i = 0; i < len; i++) {
+      parsedData.push({
+        label: data[i].title.$t,
+        value: data[i].content.$t.replace('income: ', '')
+      });
+    }
+ document.write(parsedData); 
 </script>
 </body>
 </html>
